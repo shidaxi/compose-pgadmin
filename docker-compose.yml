@@ -1,0 +1,28 @@
+version: '3.5'
+
+networks:
+  pgadmin:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    networks:
+      - pgadmin
+    restart: unless-stopped
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "15050:80"
+    networks:
+      - pgadmin
+    restart: unless-stopped
+
